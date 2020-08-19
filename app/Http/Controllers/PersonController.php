@@ -4,8 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Event;
 use App\Http\Resources\PersonResource;
+use App\Jobs\SendMail;
+use App\Mail\InvitePerson;
 use App\Person;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\Rules\In;
+
 
 class PersonController extends Controller
 {
@@ -56,6 +62,11 @@ class PersonController extends Controller
         $person->surname = $request->surname;
         $person->email = $request->email;
         $person->save();
+
+
+
+        Mail::to($person->email)->queue(new InvitePerson($person));
+
 
         return new PersonResource($person);
     }

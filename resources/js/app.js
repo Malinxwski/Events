@@ -31,8 +31,14 @@ const router = new VueRouter({
         {
             path: '/home/update/:id',
             name: 'update',
-            props: true,
             component: Update,
+            props: (route) => {
+                const id = Number.parseInt(route.params.id, 10)
+                if (Number.isNaN(id)) {
+                    return 0
+                }
+                return { id }
+            }
 
         },
     ]

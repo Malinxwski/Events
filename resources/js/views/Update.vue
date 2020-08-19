@@ -76,7 +76,7 @@
                 axios.get('/api/events').then(response =>{
                     this.events = response.data.data
                 })
-                console.log(this.$router)
+
             },
             getPerson(){
                 axios.get('/api/people/' + this.id).then(response =>{

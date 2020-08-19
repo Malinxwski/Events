@@ -2280,7 +2280,6 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('/api/events').then(function (response) {
         _this.events = response.data.data;
       });
-      console.log(this.$router);
     },
     getPerson: function getPerson() {
       var _this2 = this;
@@ -36357,8 +36356,18 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   }, {
     path: '/home/update/:id',
     name: 'update',
-    props: true,
-    component: _views_Update__WEBPACK_IMPORTED_MODULE_6__["default"]
+    component: _views_Update__WEBPACK_IMPORTED_MODULE_6__["default"],
+    props: function props(route) {
+      var id = Number.parseInt(route.params.id, 10);
+
+      if (Number.isNaN(id)) {
+        return 0;
+      }
+
+      return {
+        id: id
+      };
+    }
   }]
 });
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({

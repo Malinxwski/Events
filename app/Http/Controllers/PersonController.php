@@ -25,7 +25,7 @@ class PersonController extends Controller
     public function index()
     {
 
-        return PersonResource::collection(Person::get());
+        return PersonResource::collection(Person::latest()->paginate(10));
 
     }
 

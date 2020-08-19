@@ -3,6 +3,7 @@ require('./bootstrap');
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import Vuelidate from 'vuelidate';
 
 import Homepage from "./layouts/Homepage";
 import Index from "./views/Index";
@@ -10,6 +11,7 @@ import Create from "./views/Create";
 import Update from "./views/Update";
 
 Vue.use(VueRouter)
+Vue.use(Vuelidate)
 
 const router = new VueRouter({
     mode: 'history',

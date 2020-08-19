@@ -48,6 +48,11 @@
 
         </tbody>
     </table>
+    <div>
+        <button v-if="prev" type="button" @click="navigate(prev)" class="m-3 btn btn-primary">Previous </button>
+        <button v-if="next" type="button" @click="navigate(next)" class="m-3 btn btn-primary">Next </button>
+
+    </div>
 </div>
 </template>
 
@@ -60,6 +65,8 @@
             people:{},
             events:{},
             peopleFiltered:{},
+            next: null,
+            prev: null
 
         }),
         mounted() {
@@ -88,16 +95,21 @@
                     this.events = response.data.data;
                 });
             },
-            getPeople(){
-                axios.get( "/api/people").then(response => {
+            getPeople(address){
+                axios.get( address ? address : "/api/people").then(response => {
                     this.people = response.data.data;
                     this.peopleFiltered = response.data.data;
+                    this.prev = response.data.links.prev;
+                    this.next = response.data.links.next;
 
                 });
             },
 
             deletePerson(id){
                 axios.delete('/api/people/' + id ).then(response => this.getPeople())
+            },
+            navigate(address){
+                this.getPeople(address)
             }
         }
     }

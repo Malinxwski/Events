@@ -8,15 +8,14 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
                     <li class="nav-item ">
-                        <router-link tag="a" class="nav-link" :to="{name:'create'}">Add</router-link>
+                        <router-link tag="a" class="nav-link" :to="{name:'create'}">Пригласить</router-link>
                     </li>
-
-
                 </ul>
-                <ul>
-                    <header class="d-inline-block float-right">{{ userName }}</header>
-                    <p @click="logout" class="float-right mr-3" style="cursor: pointer"> Logout </p>
-                </ul>
+                <div class="d-inline-block ml-auto  ">
+                    <p class="d-inline-block  my-2">{{ userName }} </p>
+                    <p @click.prevent="logout" class="float-right ml-3 my-2" style="cursor: pointer">| Выйти</p>
+                </div>
+
 
 
             </div>

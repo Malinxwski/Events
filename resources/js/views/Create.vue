@@ -21,7 +21,9 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="name">Имя</span>
             </div>
-            <input type="text"  ref="name" class="form-control" placeholder="Имя" aria-label="name" aria-describedby="name">
+            <input type="text"  ref="name" class="form-control" placeholder="Имя" aria-label="name" aria-describedby="name"
+                   :class="{'is-invalid': $v.name.$dirty && !$v.name.required}"
+            >
 
         </div>
 
@@ -29,7 +31,8 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="surname">Фамилия</span>
             </div>
-            <input type="text"  ref="surname" class="form-control" placeholder="Фамилия" aria-label="surname" aria-describedby="surname">
+            <input type="text"  ref="surname" :class="{'is-invalid': $v.surname.$dirty && !$v.surname.required}"
+                   class="form-control" placeholder="Фамилия" aria-label="surname" aria-describedby="surname">
 
 
         </div>
@@ -37,7 +40,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="email">Email</span>
             </div>
-            <input type="text" ref="email" class="form-control" placeholder="Email" aria-label="surname" aria-describedby="email">
+            <input type="text" ref="email" :class="{'is-invalid': $v.email.$dirty && !$v.email.required}" class="form-control" placeholder="Email" aria-label="surname" aria-describedby="email">
         </div>
 
         <button type="submit" @click.prevent="createPerson" class="btn btn-success">Добавить</button>
@@ -53,11 +56,18 @@
 </template>
 
 <script>
+    import {required} from 'vuelidate/lib/validators'
     export default {
         name: "Create",
         data:()=>({
             events:{},
         }),
+        validations: {
+            name: {required},
+            surname: {required},
+            email: {required},
+
+        },
         methods:{
             getEvents(){
                 axios.get( "/api/events").then(response => {
@@ -65,6 +75,10 @@
                 });
             },
             createPerson(){
+                if (this.$v.$invalid) {
+                    this.$v.$touch()
+                    return
+                }
                 const formData = new FormData();
                 formData.append("event_id", this.$refs.event.value)
                 formData.append("name", this.$refs.name.value)

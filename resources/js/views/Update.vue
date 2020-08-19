@@ -23,7 +23,8 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="name">Имя</span>
             </div>
-            <input type="text"  ref="name" class="form-control" placeholder="Имя" aria-label="name" aria-describedby="name">
+            <input type="text" :class="{'is-invalid': $v.name.$dirty && !$v.name.required}"
+                   ref="name" class="form-control" placeholder="Имя" aria-label="name" aria-describedby="name">
 
         </div>
 
@@ -31,7 +32,8 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="surname">Фамилия</span>
             </div>
-            <input type="text"  ref="surname" class="form-control" placeholder="Фамилия" aria-label="surname" aria-describedby="surname">
+            <input type="text"  :class="{'is-invalid': $v.surname.$dirty && !$v.surname.required}"
+                   ref="surname" class="form-control" placeholder="Фамилия" aria-label="surname" aria-describedby="surname">
 
 
         </div>
@@ -39,7 +41,8 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="email">Email</span>
             </div>
-            <input type="text"  ref="email" class="form-control" placeholder="Email" aria-label="surname" aria-describedby="email">
+            <input type="text" :class="{'is-invalid': $v.email.$dirty && !$v.email.required}"
+                   ref="email" class="form-control" placeholder="Email" aria-label="surname" aria-describedby="email">
         </div>
 
         <button type="submit" @click.prevent="updatePerson" class="btn btn-success">Обновить</button>
@@ -55,6 +58,8 @@
 </template>
 
 <script>
+    import {required} from "vuelidate/lib/validators";
+
     export default {
         name: "Create",
         data:()=>({
@@ -71,6 +76,11 @@
             this.getPerson();
             this.getEvents();
         },
+        validations: {
+            name: {required},
+            surname: {required},
+            email: {required},
+        },
         methods:{
             getEvents(){
                 axios.get('/api/events').then(response =>{
@@ -78,6 +88,7 @@
                 })
 
             },
+
             getPerson(){
                 axios.get('/api/people/' + this.id).then(response =>{
                     this.eventSelected = response.data.data.event_id;
